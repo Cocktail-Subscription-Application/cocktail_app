@@ -1,7 +1,9 @@
 import React from 'react'
+import Navbar from './Navbar'
 export default function Privacy() {
   return (
     <>
+      <Navbar/>
       <div style={{paddingTop: '40px'}}>
         Privacy:
 
