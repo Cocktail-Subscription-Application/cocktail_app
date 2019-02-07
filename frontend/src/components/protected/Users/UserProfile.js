@@ -8,6 +8,7 @@ import UpdateToMonthly from './Subscriptions/UpdateToMonthly';
 import UpdateToQuarterly from './Subscriptions/UpdateToQuarterly';
 import ListCustomerCharges from './ListCustomerCharges';
 import UpdateDetails from './UpdateDetails';
+import PersonalDetails from './PersonalDetails/PersonalDetails';
 
 export default class UserProfile extends Component {
   state = { 
@@ -21,12 +22,12 @@ export default class UserProfile extends Component {
     
     // Check to see if the below three are actually doing anything - has to do with dynamic render i think
     updateDetailsState: false,
-    addMonthlySubscription: this.addMonthlySubscription,
-    addQuarterlySubscription: this.addQuarterlySubscription,
+    showOrders: false,
+    // addMonthlySubscription: this.addMonthlySubscription,
+    // addQuarterlySubscription: this.addQuarterlySubscription,
   }
 
   componentDidMount() {
-
     // const url = 'https://cocktail-app.now.sh/me' // PROD
     const url = 'http://localhost:5000/me' // 
     const token = Cookies.get('token')
@@ -134,6 +135,9 @@ updateDetails = () => {
   });
 }
 
+toggleOrders = () => {
+  this.setState.showOrders = true
+}
 /**
 |--------------------------------------------------
 | THE FOLLOWING TO BE IMPLEMENTED ONCE WE HAVE STRIPE ELEMENTS - OR CHANGE TO A LIFECYCLE METHOD TO AUTOMATICALLY RE RENDER UPDATES TO CARD
@@ -406,6 +410,15 @@ addQuarterlySubscription = () => {
       <div>
 
         <div className="personal-info">
+        {/* <PersonalDetails
+              firstName={this.state.firstName}
+              lastName={this.state.lastName}
+              email={this.state.email}
+              streetAddress={this.streetAddress}
+              suburb={this.suburb}
+              postcode={this.postcode}
+              state={this.ausState}              
+            /> */}
           <p>Hello {this.state.firstName} {this.state.lastName}</p>
           <p style={{fontStyle:"italic"}}>{this.state.email}</p>
           <p>These are the details you have provided to us:</p>
@@ -419,7 +432,7 @@ addQuarterlySubscription = () => {
         </div>
 
         <div className="order-history">
-            <p>list out all of their orders - use stripe</p>
+           
             <ListCustomerCharges
               stripeId={this.state.stripeId} // it is HERE
             />
@@ -427,6 +440,7 @@ addQuarterlySubscription = () => {
 
 <button onClick={this.listCustomerOrders}>View all your orders</button>
    
+
  {this.state.orders && 
     <>
       <h4>Your Orders:</h4>
@@ -442,27 +456,6 @@ addQuarterlySubscription = () => {
             {this.state.orders.map(order => 
                 { return (
                 <tr>
-
-
-{/* var date = new Date(unix_timestamp*1000);
-// Hours part from the timestamp
-var hours = date.getHours();
-// Minutes part from the timestamp
-var minutes = "0" + date.getMinutes();
-// Seconds part from the timestamp
-var seconds = "0" + date.getSeconds();
-
-// Will display time in 10:30:23 format
-var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-
-const date = new Date({order.created}*1000)
-
-const hours = date.getHours()
-
-const minutes = "0" + date.getMinutes()
-
-const second = "0" + date.getSeconds() */}
-
                   <td>{this.timeConverter(order.created)}</td>
                   <td>{this.moneyConverter(order.amount)}</td>  
                   <td>Bottle Batched Subscription</td>
@@ -471,21 +464,16 @@ const second = "0" + date.getSeconds() */}
               )}
               </tbody>
         </table>
+{/* 
+        <input type="submit" value="Hide Orders" onClick={this.toggleOrders}/>
+        {this.state.showOrders ? <p>hi</p> : <p>bye</p>} */}
     </>
 
  }
- 
 
-
-{/* 
-<p>Amount: {this.state.orderList[0].data[0].amount}</p> 
-<p>Created: {this.state.orderList[0].data[0].created}</p> 
-
-<p>Amount: {this.state.orderList[0].data[1].amount}</p> 
-<p>Created: {this.state.orderList[0].data[1].created}</p>  */}
-{/* <p>Description: {this.state.orderList[0].data[0].description}</p>  */}
-
-
+{/* toggleOrders = () => {
+  this.setState.showOrders = true
+} */}
 
 
             <hr/>
@@ -501,13 +489,13 @@ const second = "0" + date.getSeconds() */}
             { this.state.selectedOption === "quarterlyFrequency" && <p>You have a quarterly subscription</p>}
             { this.state.selectedOption === "no-subscription" && <p>You do not currently have a subscription</p>}
 
-            {/* Gives the user the option to change to the other frequency plan */}
-            { this.state.selectedOption === "monthlyFrequency" && 
+            {/* Gives the user the option to change to the other frequency plan - NOT WANTED BY CLIENT*/}
+            {/* { this.state.selectedOption === "monthlyFrequency" && 
             <>
-            {/* <UpdateToQuarterly
+            <UpdateToQuarterly
               email={this.state.email}
               subscriptionId={this.state.subscriptionId}
-            /> */}
+            />
             
 
         <p>Want cocktails delivered every 3 months instead?</p>
@@ -519,7 +507,7 @@ const second = "0" + date.getSeconds() */}
             <UpdateToMonthly 
               email={this.state.email}
               subscriptionId={this.state.subscriptionId} 
-            />}
+            />} */}
 
             { this.state.selectedOption === "no-subscription" && 
             <>
@@ -538,18 +526,11 @@ const second = "0" + date.getSeconds() */}
             <p style={{fontSize:".8em"}}>This will stop you getting billed while still allowing you to keep your account information</p>
               
             
-            <p>Your Next Subscription Payment will be for $87 || NUMBER? and will be charge on the 15th || BILLING DATE each month</p>
+            <p>Your Next Subscription Payment will be for $87 and will be charged on the 15th || BILLING CYCLE DATE each month</p>
             
             <hr/>
 
-          </div>
-              
-
-          
-            
-
-
-        
+          </div> 
 
         <div className="payment-details">
             <h4> Your Card Details:</h4>

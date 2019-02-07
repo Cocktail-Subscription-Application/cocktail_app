@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import './Admin.css';
-import AdminSidebar from './AdminSidebar.js'
 import AdminUserChart from './AdminUserChart.js'
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Customers from './../Customers';
+
+import Customers from '../Customers';
 // import Login from '../../public/Login';
 // import Cocktails from './Cocktails.js'
 import CreateCocktail from './../CreateCocktail'
@@ -32,14 +32,9 @@ class Admin extends Component {
 
       return (
         <div className="Admin" >
-          <nav>
-          <AdminSidebar {...this.props}/>
-          </nav>
           <div id="page-wrap">
             <h1>Admin Dashboard </h1>
-            <AdminUserChart/>
             <Customers {...this.props}/>
-            <CreateCocktail admin={this.state.admin}/>
           </div>
         </div>
       );

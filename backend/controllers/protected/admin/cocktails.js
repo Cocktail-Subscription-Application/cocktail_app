@@ -35,6 +35,33 @@ router.get('/cocktails', passport.authenticate('jwt', {session: false}),(req, re
     res.status(400).send(err)
   })
 })
+
+
+// publicly available cocktail
+router.get('/home/cocktail', (req, res) => {
+  Cocktail.find({available: true})
+  .then( cocktails => {
+    console.log(cocktails)
+    return res.send(cocktails)
+  })
+  .catch (err => res.status(404).send(err))
+})
+
+// get single cocktail by title
+router.get('/admin/cocktail/:title',passport.authenticate('jwt', {session: false}), (req, res) => {
+  let {title} = req.params;
+  Cocktail.findOne({title})
+  .then( cocktail => {
+    if(req.user.admin){
+      res.send(cocktail);
+    } else {
+        return res.status(403).send("Admin privileges required")
+    }
+  })
+  .catch ( err => {
+    res.status(400).send(err);
+  })
+})
     
 /**
 |--------------------------------------------------
@@ -45,15 +72,17 @@ router.get('/cocktails', passport.authenticate('jwt', {session: false}),(req, re
  router.post('/newcocktail', passport.authenticate('jwt', {session: false}),(req, res) => {
   console.log(`46  - cocktails.controller.js - get cocktails  ${req.body}`)
   if(req.user.admin){ 
+    // console.log(req.user)
+    const {title, photo, description, directions, ingredients, available, availabilityMonth} = req.body;
     console.log(`48  - cocktails.controller.js - get cocktails  ${req.user}`)
-    const {title, photo, description, directions, ingredients, available} = req.body;
     Cocktail.create ({
       title,
       photo,
       description,
       directions,
       ingredients,
-      available
+      available,
+      availabilityMonth
     })
     .then ( cocktail => {
       res.send(cocktail);
@@ -92,19 +121,25 @@ router.delete('/admin/cocktail/delete/:title',passport.authenticate('jwt', {sess
 
 /**
 |--------------------------------------------------
-| UPDATE COCKTAILS
+| UPLOAD IMAGE
 |--------------------------------------------------
 */
 
-router.patch('/admin/cocktail', passport.authenticate('jwt', {session: false}),(req, res) => {
-  const {title, newtitle} = req.body
-  // console.log(`101  - cocktails.controller.js - update cocktails  ${req.body}`)
-
+// put/patch cocktails
+router.patch('/admin/cocktail/edit/:title', passport.authenticate('jwt', {session: false}),(req, res) => {
+console.log(`edit ${req}`)
+  const {title} = req.params;
+  // const {newtitle} = req.body
+  const {available, availabilityMonth} = req.body
+  console.log(available)
   Cocktail.findOne({title})
   .then( cocktail => {   
     if(req.user.admin){
-      console.log(`106  - cocktails.controller.js - update cocktails  ${cocktail}`)
-      cocktail.title = newtitle
+      // console.log(newtitle)
+      // console.log(title)
+      // console.log(cocktail)
+      cocktail.available = available
+      cocktail.availabilityMonth = availabilityMonth
       cocktail.save()
       res.send(cocktail)
     } else {
@@ -115,12 +150,6 @@ router.patch('/admin/cocktail', passport.authenticate('jwt', {session: false}),(
     res.status(400).send(err)
   })
 })
-
-/**
-|--------------------------------------------------
-| UPLOAD IMAGE
-|--------------------------------------------------
-*/
 
 router.post('/upload', upload.single('file'), (req, res) => {
   const { buffer } = req.file

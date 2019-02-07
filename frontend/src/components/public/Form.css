@@ -29,8 +29,9 @@
   text-align: left
 }
 .site-form form button {
-  margin: 15px auto;
-  display: inline-block;
+  margin: 10px auto;
+  display: flex;
+  border: #d89638 2px solid;
 }
 .site-form input {
   width: 50%;

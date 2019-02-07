@@ -19,7 +19,7 @@ router.post('/add-monthly-subscription', (req, res)  => {
         customer: stripeId,
         items: [
           {
-            plan: "plan_EOUDCdORXev2JW",
+            plan: "plan_EOj3sJNhbq39cy",
           },
         ]
       }, function(err, subscription) {
@@ -49,7 +49,7 @@ router.post('/add-quarterly-subscription', (req, res)  => {
         customer: stripeId,
         items: [
           {
-            plan: "plan_EOUE6qieRKFekI",
+            plan: "plan_EOj3QIWZuZUbNI",
           },
         ]
       }, function(err, subscription) {
@@ -104,7 +104,7 @@ router.post('/updatetomonthlysubscription', (req, res)  => { // DEV
 
     stripe.subscriptions.update(
         subscriptionId, 
-        { plan: "plan_EOUDCdORXev2JW" },
+        { plan: "plan_EOj3sJNhbq39cy" },
                 function(err, subscription) {
                     // console.log(`109 - subscriptions.controller.js - update to a monthly subscription  ${subscription}`)
 
@@ -130,7 +130,7 @@ router.post('/updatetoquarterlysubscription', (req, res)  => { // DEV
 
         stripe.subscriptions.update(
             subscriptionId, 
-            { plan: "plan_EOUE6qieRKFekI" },
+            { plan: "plan_EOj3QIWZuZUbNI" },
                 function(err, subscription) {
                     console.log(`129 - subscriptions.controller.js - update to a quarterly subscription  ${subscription}`)
 

@@ -23,6 +23,7 @@ import {
   Elements,
   injectStripe,
 } from '../../index';
+import CocktailHome from './CocktailHome'
 
 
 export default class Parallax extends React.Component {
@@ -97,14 +98,12 @@ export default class Parallax extends React.Component {
 
 <section>
   <div class="parallax-reg">
-  <Register {...this.props}/>
-    {/* <StripeProvider apiKey={`${process.env.REACT_APP_STRIPE_KEY}`}>
-      <MyStoreCheckout {...this.props}/>
-    </StripeProvider> */}
+          <CocktailHome/>
+          {!this.props.token && <Register {...this.props}/>}
 <h2 className="sub">Already have an account?</h2>
-<hr/>
+    <hr/>
+          <Login {...this.props}/>
       {/* <CreateCocktail /> */}
-      <Login {...this.props}/>
   </div>
 </section>
 

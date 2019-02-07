@@ -15,8 +15,13 @@ import LiquorLicence from './components/public/LiquorLicence'
 
 import { Route , Switch } from 'react-router-dom'
 import axios from 'axios'
+
+import Cocktail from './components/protected/Cocktail.js'
+import CreateCocktail from './components/protected/CreateCocktail'
+
 import './App.css';
 import Cookies from 'js-cookie';
+
 require('dotenv').config()
 
 class App extends React.Component {
@@ -49,7 +54,7 @@ class App extends React.Component {
   }
 
   clearToken = () => {
-    this.setState({token: null, loggedIn: false})
+    this.setState({token: null, loggedIn: false, admin: false})
   }
 
   setAdmin = (isAdmin) =>{
@@ -78,13 +83,19 @@ class App extends React.Component {
                 exact path="/Admin"
                 render={(props) => <Admin {...props} setToken={this.setToken} token={this.state.token}  clearToken={this.clearToken} setAdmin={this.setAdmin} admin={this.state.admin}/>}
               />
-
+              <Route
+                exact path="/admin/cocktails"
+                render={(props) => <CreateCocktail {...props} setToken={this.setToken} token={this.state.token}  clearToken={this.clearToken} setAdmin={this.setAdmin} admin={this.state.admin}/>}
+              />
+              <Route exact path="/admin/cocktail/:title" component={Cocktail}
+              />
               <Route path="/who_we_are" component={WhoWeAre} exact/>
               <Route path="/terms" component={Terms} exact/>
               <Route path="/privacy" component={Privacy} exact/>
               <Route path="/liquor_licence" component={LiquorLicence} exact/>
               <Route path="/faqs" component={Faqs} exact/>
               <Route path="/contact_us" component={ContactUs} exact/>
+              
             </Switch>
           </div>
 

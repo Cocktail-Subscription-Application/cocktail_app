@@ -1,37 +1,63 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    firstName: String,
-    lastName: String,
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
     email: {
         type: String,
         required: true
     },
-    password: String,
-    session: Boolean,
-    phone: Number, 
-    deliveryAddress: String,
+    password: {
+        type: String,
+        required: true
+    },
+   
     dateJoined: {
         type: Date,
         default: Date.now
     },
-    numberOfOrders: Number,
+
     stripeId: String,
-    active: Boolean,
+
+    
     admin: {
         type: Boolean,
         default: false
     },
-    selectedOption: String,
+
+    selectedOption: {
+        type: String,
+        required: true
+    },
+
+
+    streetAddress: {
+        type: String,
+        required: true
+    },
+    suburb: {
+        type: String,
+        required: true
+    },
+    postcode: {
+        type: Number,
+        required: true
+    },
+    ausState: {
+        type: String,
+        required: true
+    },
+
+
+    orderList: Array,
     paymentSource: Array,
     subscriptionId: String,
-    streetAddress: String, 
-    suburb: String, 
-    postcode: Number, 
-    ausState: String,
-    orderList: Array,
-
-
 })
 
 module.exports = mongoose.model('User', userSchema)

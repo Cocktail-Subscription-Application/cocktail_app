@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import AdminSidebar from './Admin/AdminSidebar'
 import './Customers.css';
 
 export default class Customers extends Component {
@@ -26,10 +25,6 @@ export default class Customers extends Component {
     if(this.props.token && !this.state.error){
     return (
       <div>
-        <nav>
-          <AdminSidebar {...this.props}/>
-        </nav>
-        
         <div id="customers" className="customers">
           <h2>Your Customers</h2>
           <table className="customers-table pure-table pure-table-horizontal">

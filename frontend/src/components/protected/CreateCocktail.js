@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 import Cocktails from './Cocktails'
 
 export default class CreateCocktail extends React.Component {
-  state = { isSubmitted: false, available:true, photo: null }
+  state = { isSubmitted: false, available: true, photo: null, availabilityMonth:"this month" }
 
   handleUpload = (e) => {
     const file = e.target.files[0]
@@ -30,6 +30,7 @@ export default class CreateCocktail extends React.Component {
     const { value, id } = e.currentTarget;
     this.setState({ [id]: value})
     // console.log(`this is ${JSON.stringify(this.state)}`)
+    // console.log(value, id)
   }
 
   getData = () => {
@@ -41,11 +42,8 @@ export default class CreateCocktail extends React.Component {
         }
     })
     .then( resp => {
-        console.log(resp.data)
         const cocktails = resp.data
-        console.log(cocktails)
         this.setState({cocktails: cocktails})
-    //   console.log(cocktails)
     })
     .catch( err => {
         this.setState({error: JSON.stringify(err.response.data), status:JSON.stringify(err.response.status)})
@@ -54,17 +52,17 @@ export default class CreateCocktail extends React.Component {
 
   componentDidMount() {
     this.getData()
-    }
+  }
 
   submitForm = (e) => {
     e.preventDefault()
     // console.log(`this is ${JSON.stringify(this.state)}`)
-    const {  title, description, directions, ingredients, photo } = this.state
+    const {  title, description, directions, ingredients, photo, available, availabilityMonth } = this.state
     console.log(this.state.available)
     // the JSON.parse is required as "available" is being saved as a string in the state instead of a boolean
-    const available = JSON.parse(this.state.available)
-    const url = "http://localhost:8000/newcocktail"
-    const data = { title, photo, description, directions, ingredients, available}
+    // const available = JSON.parse(this.state.available)
+    const url = "http://localhost:5000/newcocktail"
+    const data = { title, photo, description, directions, ingredients, available, availabilityMonth}
     const token = Cookies.get('token')
         axios.post(url, data,{
           headers: {
@@ -112,10 +110,17 @@ export default class CreateCocktail extends React.Component {
               <label htmlFor="ingredients">Ingredients:</label>
               <input type="text" id="ingredients" onChange={this.handleInputChange}/><br/>
               <label htmlFor="available">Currently Available?:</label>
-              <select type="boolean" id="available" onChange={this.handleInputChange}> 
-                <option name="true" >true</option>
-                <option name="false" >false</option>
+              <select defaultValue={this.state.available} type="boolean" id="available" onChange={this.handleInputChange}> 
+                <option value={true}>True</option>
+                <option value={false}>False</option>
               </select><br/>
+
+              <select defaultValue={this.state.available} type="text" id="availabilityMonth" onChange={this.handleInputChange}> 
+                <option value="this month">This Month</option>
+                <option value="next month">Next Month</option>
+              </select><br/>
+
+
               <input type="file" name="image-upload" id="image-upload" onChange={this.handleUpload} />
               <div>
                 {this.state.photo && <img style={{height: "100px"}}src={this.state.photo} alt="cloudinary-upload"/>}

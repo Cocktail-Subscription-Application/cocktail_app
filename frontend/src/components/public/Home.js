@@ -3,6 +3,7 @@ import Register from './Register'
 import Login from './Login'
 import HowItWorks from './HowItWorks';
 import About from './About';
+import CocktailHome from './CocktailHome'
 import './Home.css'
 import Parallax from './Parallax';
 

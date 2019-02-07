@@ -9,14 +9,9 @@ export default class UpdateDetails extends Component {
     super(props)
     this.state = { 
       isSubmitted: false,
-      // email: this.email,
-      // firstName: this.firstName, 
-      // lastName: this.lastName,  
-      // streetAddress: this.streetAddress, 
-      // suburb: this.suburb, 
-      // postcode: this.postcode, 
-      // ausState: this.ausState
+      
 
+     
       email: this.email,
       firstName: "", 
       lastName: "",  
@@ -73,14 +68,17 @@ export default class UpdateDetails extends Component {
             this.setState({ error: 'Nope!', message: null})
           }
       })
+      this.setState({
+        isSubmitted: true
+      })
   }
 
   render() {
     const { firstName, lastName, streetAddress, suburb, postcode, ausState, error, message, email } = this.state
    
-    console.log(this.state);
+    
+    if (this.state.isSubmitted === false) {
     return (
-  
     <div>
       <p>This is where we update those details y'all. READY PLAYER ONE</p>  <p>Just update what's changed.</p>
       <form>
@@ -116,38 +114,13 @@ export default class UpdateDetails extends Component {
         { message && <p>{ message }</p>}
 
     </div>
-  )
+  )}
+  else {
+    return (
+      <p>Your details have been updated</p>
+    )
+  }
 }
 }
-
-
-// export default class Payment extends Component {
-//   state = { 
-//     payment: false
-//   }
-
-//   onToken = (token) => {
-//     // props are being passed down from the Register.js component
-//     const email = this.props.email
-//     const selectedOption = this.props.selectedOption
-//     //
-//     const data = { token, email, selectedOption,}
-//     // const url = 'https://cocktail-app.now.sh/api/stripe' // PROD
-//     const url = 'http://localhost:5000/api/stripe' // PROD
-
-//     axios.put(url[, data[, config]])
-
-//     axios.update(url, data)
-//       .then( response => {
-//         console.log(response.data)
-//         const { success } = response.data
-//         this.setState({ 
-//           success
-//         })
-//       })
-//       .catch ( err => {
-//         console.log(err.response)
-//       })
-//   }  
 
   

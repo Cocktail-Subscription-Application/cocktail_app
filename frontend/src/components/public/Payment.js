@@ -44,13 +44,11 @@ export default class Payment extends Component {
           currency = "AUD"
           token = {this.onToken}
           stripeKey = {"pk_test_315Jrr5E4VK9O1motqWvTJS9"}
-          // email={this.props.email}
+          // email={this.state.email}
           label="Join Bottle Batched"
           panelLabel="Start my Subscription"
           data-panel-label = {"Welcome to Bottle Batched your cocktail subscription service"}
           image="https://i.pinimg.com/originals/3a/96/de/3a96de2e9c9321992a71814d31945399.jpg"
-
-
           />
       </div>
     )

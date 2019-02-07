@@ -38,10 +38,12 @@ export default class Navbar extends Component {
         <nav id="nav" className={this.state.scroll > this.state.top ? "fixed-nav" : ""}>
           <ul>
               <li><Link to='/#home'><img  class="navlogo" src={logonav}/></Link></li>
-              <li><Link to='/#about'>About</Link></li>
-              <li><Link to='/#how-it-works'>How it Works</Link></li>
+              {!this.props.adminStatus && <li><Link to='/#about'>About</Link></li>}
+              {!this.props.adminStatus && <li><Link to='/#how-it-works'>How it Works</Link></li>}
+              {this.props.token && !this.props.adminStatus && <li><Link to='/userprofile'>Your Profile</Link></li>}
               {!this.props.token && <li><Link to='/#register' >Register/ Login</Link></li>}
-              {/* {this.props.admin && <li><Link to='/admin/#customers'>ADMIN</Link></li>} */}
+              {this.props.adminStatus && <li><Link to='/admin/#customers'>Dashboard</Link></li>}
+              {this.props.adminStatus && <li><Link to="/admin/cocktails">Cocktails</Link></li>} 
               {this.props.token && <li><Logout {...this.props}/></li>}
           </ul>
         </nav>
