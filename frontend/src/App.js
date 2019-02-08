@@ -68,6 +68,7 @@ class App extends React.Component {
 
   render() {
     console.log(this.state)
+    console.log(process.env)
     return (
         <div className="App">
           <div className="Main">
